@@ -57,5 +57,51 @@ namespace TaxCalculator.UnitTest
             bool result = taxCalcService.IsFreeVehicle(vehicleType);
             Assert.Equal(isTollFree, result);
         }
+        public static IEnumerable<object[]> GetDateTimes()
+        {
+            yield return new object[] { new DateTime[] { DateTime.Parse("2013-05-13T06:15:00"), DateTime.Parse("2013-05-13T08:45:00") }, 16 };
+        }
+        public static IEnumerable<object[]> GetCarVehicleDetails()
+        {
+            yield return new object[]
+            {
+        new VehicleDetailsDto
+        {
+            VehicleType = "Car",
+            PassedDate = new DateTime[]
+            {
+                DateTime.Parse("2013-05-13T06:15:00"),
+                DateTime.Parse("2013-05-13T08:45:00")
+            }
+        },
+        16
+            };
+        }
+        public static IEnumerable<object[]> GetMotorcycleVehicleDetails()
+        {
+            yield return new object[]
+            {
+        new VehicleDetailsDto
+        {
+            VehicleType = "Motorcycle",
+            PassedDate = new DateTime[]
+            {
+                DateTime.Parse("2013-05-13T06:15:00"),
+                DateTime.Parse("2013-05-13T08:45:00")
+            }
+        },
+        0
+            };
+        }
+        [Theory]
+        [MemberData(nameof(GetCarVehicleDetails))]
+        [MemberData(nameof(GetMotorcycleVehicleDetails))]
+
+        public void IsCalculatedFeeIsCorrect(VehicleDetailsDto vehicleDetails, int CorrectFee)
+        {
+            var result = taxCalcService.CalculateTax(vehicleDetails);
+            Assert.Equal(result, CorrectFee);
+
+        }
     }
 }

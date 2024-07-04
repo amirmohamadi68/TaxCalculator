@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace ApplicationTdd
 {
-   public record VehicleDetailsDto(string VehicleType, DateTime[] PassedDate);
+    public record VehicleDetailsDto
+    {
+ 
+        public string VehicleType { get; set; }
+        public DateTime[] PassedDate { get; set; }
+    }
   
 }

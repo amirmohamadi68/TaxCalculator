@@ -80,6 +80,64 @@ namespace ApplicationTdd
 
             return 0;
         }
+        public int CalculateTax(VehicleDetailsDto request)
+        {
+           // years must be in 2013
+           // passed day must be in one day
 
+            if (IsFreeVehicle(request.VehicleType))
+            {
+                return 0;
+            }
+
+            request.PassedDate = request.PassedDate.OrderBy(date => date).ToArray();
+
+            if (IsFreeDate(request.PassedDate[0]))
+            {
+                return 0;
+            }
+
+            int totalFee = 0;
+            int currentMaxFee = 0;
+            DateTime intervalStart = request.PassedDate[0];
+
+            foreach (DateTime date in request.PassedDate)
+            {
+                int nextFee = GetTollFee(date.Hour, date.Minute);
+                double minutesDiff = CalculateTimeDiff(intervalStart, date);
+
+                CalcTotalFee(ref totalFee, ref currentMaxFee, ref intervalStart, date, nextFee, minutesDiff);
+            }
+
+            totalFee += currentMaxFee;
+
+            //max fee in day is 60
+            return totalFee > 60 ? 60 : totalFee;
+        }
+
+        private static void CalcTotalFee(ref int totalFee, ref int currentMaxFee, ref DateTime intervalStart, DateTime date, int nextFee, double minutesDiff)
+        {
+            if (minutesDiff <= 60)
+            {
+                if (nextFee > currentMaxFee)
+                {
+                    currentMaxFee = nextFee;
+                }
+            }
+            else
+            {
+                totalFee += currentMaxFee;
+
+                intervalStart = date;
+                currentMaxFee = nextFee;
+            }
+        }
+
+        private static double CalculateTimeDiff(DateTime intervalStart, DateTime date)
+        {
+            TimeSpan span = date.Subtract(intervalStart);
+            double minutesDiff = span.TotalMinutes;
+            return minutesDiff;
+        }
     }
 }
