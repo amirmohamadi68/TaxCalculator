@@ -11,9 +11,9 @@ namespace TaxCalculator.Application
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddApplicationDependency(IServiceCollection services)
+        public static IServiceCollection AddApplicationDependency(this IServiceCollection services)
         {
-            services.AddScoped<ITaxService , TaxService>();
+            _ = services.AddScoped<ITaxService, TaxService>();
             return services;
         }
     }

@@ -12,7 +12,7 @@ using TaxCalculator.Application.DbContextInterfaces;
 
 namespace TaxCalculator.Persistance.DbContexts
 {
-    public class TaxDbContext : DbContext , ITaxDbContext
+    public class TaxDbContext : DbContext, ITaxDbContext
     {
         public TaxDbContext(DbContextOptions<TaxDbContext> options) : base(options) { }
 
@@ -312,6 +312,6 @@ namespace TaxCalculator.Persistance.DbContexts
 
             #endregion
         }
-    
+
     }
 }
