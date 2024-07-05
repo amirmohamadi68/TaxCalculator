@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicationTdd", "Applicati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxCalculator.Domain", "TaxCalculator.Domain\TaxCalculator.Domain.csproj", "{0E7A5122-278F-47B7-81B9-07E7FD98C3AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaxCalculator.Application", "TaxCalculator.Application\TaxCalculator.Application.csproj", "{76BA23A3-C74B-4F9F-B516-5087BFF854F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{0E7A5122-278F-47B7-81B9-07E7FD98C3AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E7A5122-278F-47B7-81B9-07E7FD98C3AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E7A5122-278F-47B7-81B9-07E7FD98C3AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76BA23A3-C74B-4F9F-B516-5087BFF854F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76BA23A3-C74B-4F9F-B516-5087BFF854F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76BA23A3-C74B-4F9F-B516-5087BFF854F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76BA23A3-C74B-4F9F-B516-5087BFF854F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
