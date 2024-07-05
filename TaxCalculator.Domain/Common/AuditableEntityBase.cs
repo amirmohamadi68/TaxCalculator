@@ -17,3 +17,4 @@ namespace TaxCalculator.Domain.Common
         public long LastUpdatedBy { get; set; }
     }
 }
+    
