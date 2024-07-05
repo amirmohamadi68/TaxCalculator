@@ -77,6 +77,32 @@ namespace TaxCalculator.UnitTest
         16
             };
         }
+        public static IEnumerable<object[]> GetCarVehicleDetailsForDays()
+        {
+            yield return new object[]
+            {
+        new VehicleDetailsDto
+        {
+            VehicleType = "Car",
+            PassedDate = new DateTime[]
+            {
+                DateTime.Parse("2013-05-13T06:15:00"),
+                DateTime.Parse("2013-05-13T07:16:00"),
+                DateTime.Parse("2013-05-13T08:17:00"),
+                DateTime.Parse("2013-05-13T09:18:00"),
+                 DateTime.Parse("2013-05-13T10:20:00"),
+                DateTime.Parse("2013-05-13T11:21:00"),
+                 DateTime.Parse("2013-05-13T12:22:00"),
+                DateTime.Parse("2013-05-13T13:23:00"),
+                 DateTime.Parse("2013-05-13T14:25:00"),
+                DateTime.Parse("2013-05-13T15:45:00"),
+                 DateTime.Parse("2013-05-14T06:15:00"),
+                DateTime.Parse("2013-05-15T08:45:00")
+            }
+        },
+        76
+            };
+        }
         public static IEnumerable<object[]> GetMotorcycleVehicleDetails()
         {
             yield return new object[]
@@ -99,9 +125,15 @@ namespace TaxCalculator.UnitTest
 
         public void IsCalculatedFeeIsCorrect(VehicleDetailsDto vehicleDetails, int CorrectFee)
         {
-            var result = taxCalcService.CalculateTax(vehicleDetails);
+            var result = taxCalcService.CalculateTaxInOneDay(vehicleDetails);
             Assert.Equal(result, CorrectFee);
-
+        }
+        [Theory]
+        [MemberData(nameof(GetCarVehicleDetailsForDays))]
+        public void IsCalculateFeeForDaysIsCorrect(VehicleDetailsDto vehicleDetails , int CorrectFee)
+        {
+            var result = taxCalcService.CalCulateTaxInDates(vehicleDetails);
+            Assert.Equal(result, CorrectFee);
         }
     }
 }

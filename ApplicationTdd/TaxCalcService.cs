@@ -80,17 +80,18 @@ namespace ApplicationTdd
 
             return 0;
         }
-        public int CalculateTax(VehicleDetailsDto request)
+        public int CalculateTaxInOneDay(VehicleDetailsDto request)
         {
-           // years must be in 2013
-           // passed day must be in one day
-
+        
             if (IsFreeVehicle(request.VehicleType))
             {
                 return 0;
             }
 
             request.PassedDate = request.PassedDate.OrderBy(date => date).ToArray();
+            // years must be in 2013
+            if (request.PassedDate.Any(d => d.Year > 2013))
+                throw new Exception("Aplication works only in 2013 dates");
 
             if (IsFreeDate(request.PassedDate[0]))
             {
@@ -114,20 +115,26 @@ namespace ApplicationTdd
             //max fee in day is 60
             return totalFee > 60 ? 60 : totalFee;
         }
+        public int CalCulateTaxInDates(VehicleDetailsDto request)
+        {
+            var dailyRequests = SplitByDays(request);
+            int AlldatesFee = 0;
+            foreach (var dailyRequest in dailyRequests)
+            {
+                AlldatesFee+= CalculateTaxInOneDay(dailyRequest);
+            }
+            return AlldatesFee;
+        }
 
         private static void CalcTotalFee(ref int totalFee, ref int currentMaxFee, ref DateTime intervalStart, DateTime date, int nextFee, double minutesDiff)
         {
             if (minutesDiff <= 60)
             {
-                if (nextFee > currentMaxFee)
-                {
-                    currentMaxFee = nextFee;
-                }
-            }
+                currentMaxFee = nextFee > currentMaxFee ? nextFee : currentMaxFee;
+            }          
             else
             {
                 totalFee += currentMaxFee;
-
                 intervalStart = date;
                 currentMaxFee = nextFee;
             }
@@ -138,6 +145,19 @@ namespace ApplicationTdd
             TimeSpan span = date.Subtract(intervalStart);
             double minutesDiff = span.TotalMinutes;
             return minutesDiff;
+        }
+        private static IEnumerable<VehicleDetailsDto> SplitByDays(VehicleDetailsDto request)
+        {
+            // Group PassedDate by date part only (ignoring time)
+            var groupedByDay = request.PassedDate
+                .GroupBy(date => date.Date)
+                .Select(group => new VehicleDetailsDto
+                {
+                    VehicleType = request.VehicleType,
+                    PassedDate = group.ToArray()
+                });
+
+            return groupedByDay;
         }
     }
 }
