@@ -15,10 +15,11 @@ namespace TaxCalculator.Presentation.Api.Controllers
         {
             _taxService = taxService;
         }
-        [HttpGet]
-        public async Task< IActionResult> Get([FromBody] TaxCalculationDto taxCalculationDto)
+
+        [HttpPost]
+        public async Task<IActionResult> CalculateTax([FromBody] TaxCalculationDto taxCalculationDto)
         {
-          var result =await  _taxService.CalculateTax(taxCalculationDto);
+            var result = await _taxService.CalculateTax(taxCalculationDto);
             return Ok(result);
         }
     }
