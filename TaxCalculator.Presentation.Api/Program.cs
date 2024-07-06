@@ -15,7 +15,7 @@ namespace TaxCalculator.Presentation.Api
             builder.Services.AddControllers();
 
             var app = builder.Build();
-
+            app.UseExceptionHandleMiddleware();
             // Configure the HTTP request pipeline.
 
             app.UseAuthorization();
